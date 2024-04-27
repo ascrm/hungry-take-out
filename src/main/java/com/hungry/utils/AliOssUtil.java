@@ -15,7 +15,6 @@ import java.io.ByteArrayInputStream;
 @Slf4j
 public class AliOssUtil {
 
-
     private String endpoint;
     private String accessKeyId;
     private String accessKeySecret;
@@ -24,11 +23,8 @@ public class AliOssUtil {
     /**
      * 文件上传
      *
-     * @param bytes
-     * @param objectName
-     * @return
      */
-    public String upload(byte[] bytes, String objectName) {
+    public void upload(byte[] bytes, String objectName) {
 
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -63,8 +59,6 @@ public class AliOssUtil {
                 .append("/")
                 .append(objectName);
 
-        log.info("文件上传到:{}", stringBuilder.toString());
-
-        return stringBuilder.toString();
+        log.info("文件上传到:{}", stringBuilder);
     }
 }
