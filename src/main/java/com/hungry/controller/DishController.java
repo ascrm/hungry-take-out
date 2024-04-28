@@ -43,6 +43,6 @@ public class DishController {
     @PostMapping("/{status}/{id}")
     public Result<String> editStatus(@PathVariable int status,
                                      @PathVariable Integer id){
-        return Result.success("修改成功");
+        return dishService.editStatus(status,id);
     }
 }
