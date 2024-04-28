@@ -44,4 +44,10 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         dishMapper.deleteDish(id);
         return Result.success(DISH_DELETE);
     }
+
+    @Override
+    public Result<String> editStatus(int status,Integer id){
+        dishMapper.editStatus(status,id);
+        return Result.success(DISH_EDIT_STATUS);
+    }
 }

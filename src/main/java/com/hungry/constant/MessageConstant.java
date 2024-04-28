@@ -15,4 +15,6 @@ public class MessageConstant {
 
     public static final String DISH_DELETE="菜品删除成功";
 
+    public static final String DISH_EDIT_STATUS="菜品状态更新成功";
+
 }

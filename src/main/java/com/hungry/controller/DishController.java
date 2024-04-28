@@ -39,4 +39,10 @@ public class DishController {
     public Result<String> deleteDish(@PathVariable Integer id){
         return dishService.deleteDish(id);
     }
+
+    @PostMapping("/{status}/{id}")
+    public Result<String> editStatus(@PathVariable int status,
+                                     @PathVariable Integer id){
+        return Result.success("修改成功");
+    }
 }

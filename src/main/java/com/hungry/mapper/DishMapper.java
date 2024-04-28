@@ -25,4 +25,7 @@ public interface DishMapper extends BaseMapper<Dish> {
 
     @Delete("delete from dish where id=#{id}")
     void deleteDish(Integer id);
+
+    @Update("update dish set status = #{status} where id = #{id}")
+    void editStatus(int status,Integer id);
 }
