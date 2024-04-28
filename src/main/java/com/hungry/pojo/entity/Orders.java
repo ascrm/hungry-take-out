@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("orders")
-public class EntityOrders implements Serializable {
+public class Orders implements Serializable {
     private final static long serialVersionUID = 1L;
     private int id;
     private String number;
