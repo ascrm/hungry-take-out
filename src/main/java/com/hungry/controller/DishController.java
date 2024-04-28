@@ -25,18 +25,18 @@ public class DishController {
         return Result.success(dishService.MyPageList(pageNum,pageSize));
     }
 
-    @PostMapping("/edit")
-    public Result<String> editDish(@RequestBody Dish dish){
-        return null;
+    @PostMapping("/edit/{id}")
+    public Result<String> editDish(@RequestBody Dish dish,@PathVariable Integer id){
+        return dishService.editDish(dish,id);
     }
 
     @PutMapping("/add")
     public Result<String> addDish(@RequestBody Dish dish){
-        return null;
+        return dishService.addDish(dish);
     }
 
     @DeleteMapping("/delete/{id}")
     public Result<String> deleteDish(@PathVariable Integer id){
-        return null;
+        return dishService.deleteDish(id);
     }
 }

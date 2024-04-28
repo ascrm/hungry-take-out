@@ -16,7 +16,7 @@ public interface DishMapper extends BaseMapper<Dish> {
     //前端要设置前四个字段必须传
     @Update("update dish set name = #{name}, price = #{price}, category = #{category}, image=#{image}," +
             "update_time=#{updatedTime} where id = #{id}")
-    void editDish(Dish dish);
+    void editDish(Dish dish,Integer id);
 
     //前端除id和status和时间之外都必须设置要传
     @Insert("insert dish set id=#{id}, name = #{name}, price = #{price}, category=#{category}, image=#{image}," +

@@ -9,14 +9,16 @@ import com.hungry.service.DishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import static com.hungry.constant.MessageConstant.*;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements DishService {
+
     private final DishMapper dishMapper;
+
     public PageInfo<Dish> MyPageList(int pageNum, int pageSize) {
         PageInfo<Dish> pageInfo = new PageInfo<>();
         List<Dish> listByPage = dishMapper.getListByPage(pageNum, pageSize);
@@ -26,18 +28,20 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     }
 
     @Override
-    public Result<String> editDish(Dish dish) {
-        return null;
+    public Result<String> editDish(Dish dish,Integer id) {
+        dishMapper.editDish(dish,id);
+        return Result.success(DISH_EDIT);
     }
 
     @Override
     public Result<String> addDish(Dish dish) {
-        return null;
+        dishMapper.addDish(dish);
+        return Result.success(DISH_ADD);
     }
 
     @Override
     public Result<String> deleteDish(Integer id) {
-        return null;
+        dishMapper.deleteDish(id);
+        return Result.success(DISH_DELETE);
     }
-
 }
