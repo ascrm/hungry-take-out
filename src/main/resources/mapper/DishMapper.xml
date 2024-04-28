@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hungry.mapper.DishMapper">
-
-    <select id="getListByPage" resultType="com.hungry.pojo.entity.EntityDish">
+    <select id="getListByPage" resultType="com.hungry.pojo.entity.Dish">
         select * from dish limit #{pageNum},#{pageSize}
     </select>
 </mapper>
