@@ -1,6 +1,8 @@
 package com.hungry.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hungry.Enum.OperationType;
+import com.hungry.annotation.AutoFill;
 import com.hungry.mapper.DishMapper;
 import com.hungry.pojo.PageInfo;
 import com.hungry.pojo.Result;
@@ -9,7 +11,6 @@ import com.hungry.service.DishService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import static com.hungry.constant.MessageConstant.*;
 
 @Service
@@ -21,19 +22,20 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     public PageInfo<Dish> MyPageList(int pageNum, int pageSize) {
         PageInfo<Dish> pageInfo = new PageInfo<>();
-        List<Dish> listByPage = dishMapper.getListByPage(pageNum, pageSize);
-        pageInfo.setData(listByPage);
-        pageInfo.setTotal(listByPage.size());
+        pageInfo.setData(dishMapper.getListByPage(pageNum-1, pageSize));
+        pageInfo.setTotal(dishMapper.getTotal());
         return pageInfo;
     }
 
     @Override
+    @AutoFill(OperationType.DISH_UPDATE)
     public Result<String> editDish(Dish dish,Integer id) {
         dishMapper.editDish(dish,id);
         return Result.success(DISH_EDIT);
     }
 
     @Override
+    @AutoFill(OperationType.DISH_INSERT)
     public Result<String> addDish(Dish dish) {
         dishMapper.addDish(dish);
         return Result.success(DISH_ADD);

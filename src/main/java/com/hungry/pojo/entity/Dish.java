@@ -25,6 +25,8 @@ public class Dish implements Serializable {
     //status：菜品状态： 0 停售 1 出售
     private int status;
     private String description;
+
     private LocalDateTime createTime;
+
     private LocalDateTime updateTime;
 }
