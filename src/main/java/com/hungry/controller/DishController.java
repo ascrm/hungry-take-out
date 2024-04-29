@@ -6,6 +6,7 @@ import com.hungry.pojo.entity.Dish;
 import com.hungry.service.impl.DishServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class DishController {
     }
 
     @PostMapping("/edit/{id}")
+    @PreAuthorize("hasAuthority('admin')")
     public Result<String> editDish(@RequestBody Dish dish,@PathVariable Integer id){
         log.info("{}",dish);
         log.info("{}",id);
@@ -27,16 +29,18 @@ public class DishController {
     }
 
     @PutMapping("/add")
+    @PreAuthorize("hasAuthority('admin')")
     public Result<String> addDish(@RequestBody Dish dish){
         return dishService.addDish(dish);
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('admin')")
     public Result<String> deleteDish(@PathVariable Integer id){
         return dishService.deleteDish(id);
     }
 
-    @PostMapping("/{status}/{id}")
+    @PostMapping("/{status}/{id}")@PreAuthorize("hasAuthority('admin')")
     public Result<String> editStatus(@PathVariable int status,
                                      @PathVariable Integer id){
         return dishService.editStatus(status,id);
