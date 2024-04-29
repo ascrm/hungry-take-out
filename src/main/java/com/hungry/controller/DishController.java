@@ -14,12 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class DishController {
     private final DishServiceImpl dishService;
-
-    /*TODO 问题
-    1. num为 1 的时候是从第二条数据开始查的
-    2. 返回的total总记录数，是表里面的所有数据，而不是返回的记录数的总数居
-    3. pageInfo只需要 total 和 data 两个属性
-     */
     @GetMapping("/page")
     public Result<PageInfo<Dish>> page(@RequestParam int pageNum, @RequestParam int pageSize) {
         return Result.success(dishService.MyPageList(pageNum,pageSize));

@@ -17,4 +17,12 @@ public class MessageConstant {
 
     public static final String DISH_EDIT_STATUS="菜品状态更新成功";
 
+    public static final String ORDER_ADD="订单添加成功";
+
+    public static final String ORDER_DELETE="订单删除成功";
+
+    public static final String ORDER_EDIT="订单修改成功";
+
+    public static final String ORDER_EDIT_STATUS="订单状态更新成功";
+
 }
