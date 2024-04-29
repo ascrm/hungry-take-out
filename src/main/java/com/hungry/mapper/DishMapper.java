@@ -13,12 +13,10 @@ import java.util.List;
 public interface DishMapper extends BaseMapper<Dish> {
     List<Dish> getListByPage(int pageNum, int pageSize);
 
-    //前端要设置前四个字段必须传
     @Update("update dish set name = #{name}, price = #{price}, category = #{category}, image=#{image}," +
-            "update_time=#{updatedTime} where id = #{id}")
-    void editDish(Dish dish,Integer id);
+            "status=#{status}, update_time=#{updateTime} where id = #{id}")
+    void editDish(Dish dish);
 
-    //前端除id和status和时间之外都必须设置要传
     @Insert("insert dish set id=#{id}, name = #{name}, price = #{price}, category=#{category}, image=#{image}," +
             "status = #{status},create_time=#{createTime},update_time=#{updatedTime}")
     void addDish(Dish dish);

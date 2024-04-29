@@ -29,7 +29,8 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     @Override
     public Result<String> editDish(Dish dish,Integer id) {
-        dishMapper.editDish(dish,id);
+        dish.setId(id);
+        dishMapper.editDish(dish);
         return Result.success(DISH_EDIT);
     }
 

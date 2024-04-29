@@ -27,6 +27,8 @@ public class DishController {
 
     @PostMapping("/edit/{id}")
     public Result<String> editDish(@RequestBody Dish dish,@PathVariable Integer id){
+        log.info("{}",dish);
+        log.info("{}",id);
         return dishService.editDish(dish,id);
     }
 
