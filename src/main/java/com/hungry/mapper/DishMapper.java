@@ -2,15 +2,13 @@ package com.hungry.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hungry.pojo.entity.Dish;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
 public interface DishMapper extends BaseMapper<Dish> {
+    @Select("select * from dish limit #{pageNum},#{pageSize}")
     List<Dish> getListByPage(int pageNum, int pageSize);
 
     @Update("update dish set name = #{name}, price = #{price}, category = #{category}, image=#{image}," +
@@ -26,4 +24,7 @@ public interface DishMapper extends BaseMapper<Dish> {
 
     @Update("update dish set status = #{status} where id = #{id}")
     void editStatus(int status,Integer id);
+
+    @Select("select count(*) from dish")
+    long getTotal();
 }
