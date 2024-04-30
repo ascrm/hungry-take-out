@@ -5,6 +5,7 @@ import com.hungry.pojo.Result;
 import com.hungry.pojo.entity.Admin;
 import com.hungry.service.AdminService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -26,6 +27,7 @@ public class AdminController {
     }
 
     @PostMapping("/register")
+    @PreAuthorize("hasAuthority('admin')")
     public Result<String> register(@RequestBody Admin admin) {
         return Result.success(adminService.register(admin));
     }
