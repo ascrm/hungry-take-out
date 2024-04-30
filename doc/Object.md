@@ -29,8 +29,8 @@
 
 > 菜品实体
 
-| 字段        | 类型          | 描述     | 是否唯一 | 是否可为空 | 默认值   |
-| ----------- | ------------- | -------- | -------- | ---------- | -------- |
+| 字段          | 类型            | 描述     | 是否唯一 | 是否可为空 | 默认值   |
+|-------------|---------------| -------- | -------- | ---------- | -------- |
 | id          | int           | 主键     | yes      | no         | null     |
 | name        | String        | 名称     | yes      | no         | null     |
 | category    | String        | 分类     | no       | yes        | null     |
@@ -40,10 +40,10 @@
 | description | String        | 描述     | no       | yes        | null     |
 | createTime  | LocalDateTime | 创建时间 | no       | yes        | 当前时间 |
 | updateTime  | LocalDateTime | 修改时间 | no       | yes        | 当前时间 |
-
+| permisson   | String        | 权限     | no       | yes        | null     |
 - category可选项：主食类，特色类，中餐类，素菜类，小吃类，汤菜类，酒水饮料
 - status：菜品状态： 0 停售     1 出售
-
+-permisson: 权限：admin是管理员  null是普通用户
 
 
 ### `Orders`

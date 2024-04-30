@@ -22,4 +22,5 @@ public class Admin implements Serializable {
     private String name;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+    private String permission;
 }

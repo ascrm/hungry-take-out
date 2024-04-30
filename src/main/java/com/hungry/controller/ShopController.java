@@ -3,6 +3,7 @@ package com.hungry.controller;
 import com.hungry.pojo.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static com.hungry.constant.MessageConstant.SHOP_UPDATE_STATUS;
@@ -32,6 +33,7 @@ public class ShopController {
      * 更新店铺状态
      */
     @PostMapping("/{status}")
+    @PreAuthorize("hasAuthority('admin')")
     public Result<String> updateStatus(@PathVariable String status){
         stringRedisTemplate.opsForValue().set(SHOP_STATUS,status);
         return Result.success(SHOP_UPDATE_STATUS);

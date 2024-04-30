@@ -16,13 +16,13 @@
 
 > **根路径："/admin"**
 
-### 1.1 注册
+### 1.1 注册(admin才能操作)
 
 - 请求路径："/register"
 
 - 请求方式：POST
 
-- 请求参数：{userName，password}
+- 请求参数：{userName，passWord,name,permission}
 
 - 响应data：`null`
 
@@ -32,7 +32,7 @@
 
 - 请求方式：POST
 
-- 请求参数：{userName，password}
+- 请求参数：{userName，passWord}
 
 - 响应data：`jwt令牌`
 
@@ -62,7 +62,7 @@
 
 
 
-### 2.2 修改菜品信息
+### 2.2 修改菜品信息(admin才能操作)
 
 - 路径："/edit/ {id} "
 - 方式：POST
@@ -71,7 +71,7 @@
 
 
 
-### 2.3 添加菜品
+### 2.3 添加菜品(admin才能操作)
 
 - 路径："/add "
 - 方式：PUT
@@ -80,7 +80,7 @@
 
 
 
-### 2.4 删除菜品
+### 2.4 删除菜品(admin才能操作)
 
 - 路径："/delete/ {id} "
 - 方式：DELETE
@@ -89,7 +89,7 @@
 
 
 
-## 3. 订单模块
+## 3. 订单模块(admin才能操作的和dish里一样)
 
 > **根路径 ："/order"**
 
@@ -129,7 +129,7 @@
 
 
 
-### 5.2 修改店铺状态
+### 5.2 修改店铺状态(admin才能操作)
 
 - 路径："/{status}"
 - 方式：POST
