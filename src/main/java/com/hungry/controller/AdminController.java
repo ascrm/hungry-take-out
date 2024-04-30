@@ -2,6 +2,7 @@ package com.hungry.controller;
 
 import com.hungry.pojo.LoginDto;
 import com.hungry.pojo.Result;
+import com.hungry.pojo.entity.Admin;
 import com.hungry.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,17 @@ public class AdminController {
 
     @PostMapping("/login")
     public Result<Map<String,String>> login(@RequestBody LoginDto loginDto) {
-        return Result.success(adminService.login(loginDto));
+        return Result.success("登录成功",adminService.login(loginDto));
     }
 
-    @DeleteMapping("/logout")
+    @PostMapping("/logout")
     public Result<String> logout() {
         return Result.success(adminService.logout());
     }
+
+    @PostMapping("/register")
+    public Result<String> register(@RequestBody Admin admin) {
+        return Result.success(adminService.register(admin));
+    }
+
 }

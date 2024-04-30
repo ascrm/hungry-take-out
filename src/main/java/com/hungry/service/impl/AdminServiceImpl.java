@@ -1,6 +1,10 @@
 package com.hungry.service.impl;
 
+import com.hungry.Enum.OperationType;
+import com.hungry.annotation.AutoFill;
+import com.hungry.mapper.AdminMapper;
 import com.hungry.pojo.LoginDto;
+import com.hungry.pojo.entity.Admin;
 import com.hungry.pojo.entity.LoginUser;
 import com.hungry.service.AdminService;
 import com.hungry.utils.security.JwtUtil;
@@ -15,15 +19,19 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.hungry.constant.MessageConstant.LOGOUT_SUCCESS;
+import static com.hungry.constant.MessageConstant.REGISTER_SUCCESS;
+
 @Service
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
     private final AuthenticationManager authenticationManager;
     private final RedisCache redisCache;
+    private final AdminMapper adminMapper;
     @Override
     public Map<String, String> login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
+                new UsernamePasswordAuthenticationToken(loginDto.getUserName(),loginDto.getPassWord());
             Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //if认证没通过
         if(Objects.isNull(authenticate)){
@@ -47,6 +55,13 @@ public class AdminServiceImpl implements AdminService {
 
         //删除redis中的用户信息
         redisCache.deleteObject("login:"+id);
-        return "注销成功";
+        return LOGOUT_SUCCESS;
+    }
+
+    @Override
+    @AutoFill(OperationType.DISH_INSERT)
+    public String register(Admin admin) {
+        adminMapper.insertOne(admin);
+        return REGISTER_SUCCESS;
     }
 }

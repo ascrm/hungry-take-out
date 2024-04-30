@@ -25,4 +25,7 @@ public class MessageConstant {
 
     public static final String ORDER_EDIT_STATUS="订单状态更新成功";
 
+    public static final String LOGOUT_SUCCESS="用户登出成功";
+    public static final String REGISTER_SUCCESS="用户注册成功";
+
 }

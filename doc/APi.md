@@ -16,13 +16,13 @@
 
 > **根路径："/admin"**
 
-### 1.1 注册
+### 1.1 注册(admin才能操作)
 
 - 请求路径："/register"
 
 - 请求方式：POST
 
-- 请求参数：{userName，password}
+- 请求参数：{userName，passWord,name,permission}
 
 - 响应data：`null`
 
@@ -32,7 +32,7 @@
 
 - 请求方式：POST
 
-- 请求参数：{userName，password}
+- 请求参数：{userName，passWord}
 
 - 响应data：`jwt令牌`
 
