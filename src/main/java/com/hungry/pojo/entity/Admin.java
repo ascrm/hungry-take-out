@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public class Admin implements Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
-    private String userName;
-    private String passWord;
+    private String username;
+    private String password;
     private String name;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;

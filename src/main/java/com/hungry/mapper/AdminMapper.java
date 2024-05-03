@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface AdminMapper {
-    @Select("select * from admin where user_name=#{username}")
+    @Select("select * from admin where username=#{username}")
     Admin getOne(String username);
 
-    @Insert("insert into admin (user_name,password,name,create_time,update_time,permission) values (#{userName},#{passWord},#{name},#{createTime},#{updateTime},#{permission})")
+    @Insert("insert into admin (username,password,name,create_time,update_time,permission) values (#{username},#{password},#{name},#{createTime},#{updateTime},#{permission})")
     void insertOne(Admin admin);
 }

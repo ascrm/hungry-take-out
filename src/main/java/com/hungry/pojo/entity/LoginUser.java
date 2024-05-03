@@ -36,12 +36,12 @@ public class LoginUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return admin.getPassWord();
+        return admin.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return admin.getUserName();
+        return admin.getUsername();
     }
 
     @Override

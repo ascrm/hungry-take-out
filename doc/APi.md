@@ -22,7 +22,7 @@
 
 - 请求方式：POST
 
-- 请求参数：{userName，passWord,name,permission}
+- 请求参数：{username，password,name,permission}
 
 - 响应data：`null`
 
