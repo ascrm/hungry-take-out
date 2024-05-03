@@ -32,7 +32,7 @@
 
 - 请求方式：POST
 
-- 请求参数：{userName，passWord}
+- 请求参数：{username，password}
 
 - 响应data：`jwt令牌`
 

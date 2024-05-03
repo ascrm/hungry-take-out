@@ -31,7 +31,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Map<String, String> login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getUserName(),loginDto.getPassWord());
+                new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
             Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //if认证没通过
         if(Objects.isNull(authenticate)){
