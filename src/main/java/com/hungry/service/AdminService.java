@@ -1,6 +1,8 @@
 package com.hungry.service;
 
-import com.hungry.pojo.LoginDto;
+import com.hungry.pojo.DTO.LoginDto;
+import com.hungry.pojo.DTO.RegisterDto;
+import com.hungry.pojo.Result;
 import com.hungry.pojo.entity.Admin;
 
 import java.util.Map;
@@ -10,5 +12,7 @@ public interface AdminService {
 
     String logout();
 
-    String register(Admin admin);
+    String register(RegisterDto registerDto);
+
+    Result<String> sendMail(Admin admin);
 }

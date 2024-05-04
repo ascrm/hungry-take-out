@@ -21,7 +21,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PageInfo<Orders> MyPageList(int pageNum, int pageSize) {
         PageInfo<Orders> pageInfo = new PageInfo<>();
-        pageInfo.setData(orderMapper.getListByPage(pageNum-1, pageSize));
+        pageInfo.setData(orderMapper.getListByPage((pageNum-1)*pageSize, pageSize));
         pageInfo.setTotal(orderMapper.getTotal());
         return pageInfo;
     }

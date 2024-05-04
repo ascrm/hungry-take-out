@@ -1,4 +1,4 @@
-package com.hungry.pojo;
+package com.hungry.pojo.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
