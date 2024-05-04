@@ -20,7 +20,8 @@ public class Admin implements Serializable {
     private String username;
     private String password;
     private String name;
+    private String mail;
+    private String permission;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private String permission;
 }

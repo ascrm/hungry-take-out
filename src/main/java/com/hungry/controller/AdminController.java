@@ -1,6 +1,7 @@
 package com.hungry.controller;
 
-import com.hungry.pojo.LoginDto;
+import com.hungry.pojo.DTO.LoginDto;
+import com.hungry.pojo.DTO.RegisterDto;
 import com.hungry.pojo.Result;
 import com.hungry.pojo.entity.Admin;
 import com.hungry.service.AdminService;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
     private final AdminService adminService;
@@ -27,9 +28,12 @@ public class AdminController {
     }
 
     @PostMapping("/register")
-//    @PreAuthorize("hasAuthority('admin')")
-    public Result<String> register(@RequestBody Admin admin) {
-        return Result.success(adminService.register(admin));
+    public Result<String> register(@RequestBody RegisterDto registerDto) {
+        return Result.success(adminService.register(registerDto));
     }
 
+    @PostMapping("/mail")
+    public Result<String> sendMail(@RequestBody Admin admin) {
+        return adminService.sendMail(admin);
+    }
 }

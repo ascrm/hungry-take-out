@@ -22,7 +22,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
 
     public PageInfo<Dish> MyPageList(int pageNum, int pageSize) {
         PageInfo<Dish> pageInfo = new PageInfo<>();
-        pageInfo.setData(dishMapper.getListByPage(pageNum-1, pageSize));
+        pageInfo.setData(dishMapper.getListByPage((pageNum-1)*pageSize, pageSize));
         pageInfo.setTotal(dishMapper.getTotal());
         return pageInfo;
     }

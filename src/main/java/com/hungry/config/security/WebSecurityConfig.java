@@ -38,8 +38,8 @@ public class WebSecurityConfig{
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// 配置拦截
 		http.authorizeRequests(authorize -> authorize
-						.requestMatchers(new AntPathRequestMatcher("/register")).permitAll()
-						.requestMatchers(new AntPathRequestMatcher("/login")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/admin/register")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/admin/login")).permitAll()
 						.anyRequest().authenticated()
 				)
 				.csrf(csrf -> csrf.disable())
