@@ -27,7 +27,7 @@ public class AdminController {
     }
 
     @PostMapping("/register")
-    @PreAuthorize("hasAuthority('admin')")
+//    @PreAuthorize("hasAuthority('admin')")
     public Result<String> register(@RequestBody Admin admin) {
         return Result.success(adminService.register(admin));
     }

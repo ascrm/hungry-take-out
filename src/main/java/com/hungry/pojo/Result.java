@@ -36,7 +36,7 @@ public class Result<T> {
     }
 
     public static <T>Result<T> success(String msg,T data) {
-        return new Result<>(0,msg,null);
+        return new Result<>(0,msg,data);
     }
 
     public static <T>Result<T> fail() {

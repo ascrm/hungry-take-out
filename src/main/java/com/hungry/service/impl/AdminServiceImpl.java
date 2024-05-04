@@ -2,6 +2,7 @@ package com.hungry.service.impl;
 
 import com.hungry.Enum.OperationType;
 import com.hungry.annotation.AutoFill;
+import com.hungry.config.security.Md5PasswordEncoder;
 import com.hungry.mapper.AdminMapper;
 import com.hungry.pojo.LoginDto;
 import com.hungry.pojo.entity.Admin;
@@ -31,7 +32,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Map<String, String> login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getUserName(),loginDto.getPassWord());
+                new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
             Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //if认证没通过
         if(Objects.isNull(authenticate)){
@@ -61,6 +62,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @AutoFill(OperationType.DISH_INSERT)
     public String register(Admin admin) {
+        Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
+        String password = md5PasswordEncoder.encode(admin.getPassword());
+        admin.setPassword(password);
         adminMapper.insertOne(admin);
         return REGISTER_SUCCESS;
     }

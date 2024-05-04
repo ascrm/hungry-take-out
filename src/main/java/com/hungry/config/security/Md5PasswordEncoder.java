@@ -14,7 +14,6 @@ public class Md5PasswordEncoder implements PasswordEncoder {
 
 	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
-		// TODO Auto-generated method stub
 		return encode(rawPassword).equals(encodedPassword);
 	}
 }
