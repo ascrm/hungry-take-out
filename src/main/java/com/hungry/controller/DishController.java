@@ -45,4 +45,9 @@ public class DishController {
                                      @PathVariable Integer id){
         return dishService.editStatus(status,id);
     }
+
+    @GetMapping("/select/{id}")
+    public Result<Dish> queryDishById(@PathVariable Integer id){
+        return dishService.queryDishById(id);
+    }
 }

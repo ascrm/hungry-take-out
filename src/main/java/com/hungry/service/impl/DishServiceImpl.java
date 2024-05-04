@@ -53,4 +53,10 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         dishMapper.editStatus(status,id);
         return Result.success(DISH_EDIT_STATUS);
     }
+
+    @Override
+    public Result<Dish> queryDishById(Integer id) {
+        Dish dish = dishMapper.queryDishById(id);
+        return Result.success(dish);
+    }
 }

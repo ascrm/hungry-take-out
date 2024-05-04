@@ -12,11 +12,11 @@ public interface DishMapper extends BaseMapper<Dish> {
     List<Dish> getListByPage(int pageNum, int pageSize);
 
     @Update("update dish set name = #{name}, price = #{price}, category = #{category}, image=#{image}," +
-            "status=#{status}, update_time=#{updateTime} where id = #{id}")
+            "status=#{status},description=#{description}, update_time=#{updateTime} where id = #{id}")
     void editDish(Dish dish);
 
     @Insert("insert dish set id=#{id}, name = #{name}, price = #{price}, category=#{category}, image=#{image}," +
-            "status = #{status},create_time=#{createTime},update_time=#{updatedTime}")
+            "status = #{status},description=#{description},create_time=#{createTime},update_time=#{updateTime}")
     void addDish(Dish dish);
 
     @Delete("delete from dish where id=#{id}")
@@ -27,4 +27,7 @@ public interface DishMapper extends BaseMapper<Dish> {
 
     @Select("select count(*) from dish")
     long getTotal();
+
+    @Select("select * from dish where id=#{id}")
+    Dish queryDishById(Integer id);
 }
