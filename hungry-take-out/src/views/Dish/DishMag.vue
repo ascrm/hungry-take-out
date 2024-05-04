@@ -57,13 +57,13 @@ const onCurrentChange = (page) => {
 
 // 搜索功能
 const onSearch = () => {
-  pageParams.value.pageNum = 0 // 重置页面
+  pageParams.value.pageNum = 1 // 重置页面
   getDishList()
 }
 
 // 重置表单
 const onReset = () => {
-  pageParams.value.pageNum = 0 // 重置页面
+  pageParams.value.pageNum = 1 // 重置页面
   pageParams.value.name = ''
   pageParams.value.type = ''
   pageParams.value.status = ''

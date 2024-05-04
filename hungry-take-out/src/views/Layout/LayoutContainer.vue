@@ -42,7 +42,7 @@ import { Menu, ShoppingCart, Operation, Bell } from '@element-plus/icons-vue'
           <Bell />
         </el-icon>
 
-        <el-avatar src="@/assets.5.jpg"></el-avatar>
+        <el-avatar src="@/assets/5.jpg"></el-avatar>
       </el-header>
 
       <el-main>
