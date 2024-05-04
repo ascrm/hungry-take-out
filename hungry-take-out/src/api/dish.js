@@ -9,11 +9,15 @@ export const dishPageQueryService = ({ pageNum, pageSize }) =>
     }
   })
 
+//根据id查询菜品
+export const dishQueryById = (id) => request.get(`/dish/select/${id}`)
+
 //修改菜品
-export const dishEditService = () => request.post('/dish/edit', {})
+export const dishEditService = (data) =>
+  request.post(`/dish/edit/${data.id}`, data)
 
 //添加菜品
-export const dishAddService = () => request.put('/dish/add')
+export const dishAddService = (data) => request.put('/dish/add', data)
 
 //删除菜品
-export const dishDeleteService = () => request.delete('/dish/delete/{id}')
+export const dishDeleteService = (id) => request.delete(`/dish/delete/${id}`)

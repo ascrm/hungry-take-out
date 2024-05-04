@@ -20,10 +20,10 @@ instance.interceptors.request.use(
   (err) => Promise.reject(err)
 )
 
-//登录拦截器
+//响应拦截器
 instance.interceptors.response.use(
   (res) => {
-    if (res.data.code === 200) {
+    if (res.data.code == 200) {
       return res
     }
     ElMessage.err(res.data.msg || '服务异常')
