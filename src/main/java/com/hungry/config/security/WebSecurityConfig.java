@@ -40,6 +40,8 @@ public class WebSecurityConfig{
 		http.authorizeRequests(authorize -> authorize
 						.requestMatchers(new AntPathRequestMatcher("/admin/register")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/admin/login")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/admin/mail")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/admin/logout")).permitAll()
 						.anyRequest().authenticated()
 				)
 				.csrf(csrf -> csrf.disable())
