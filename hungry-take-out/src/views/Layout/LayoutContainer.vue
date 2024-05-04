@@ -1,5 +1,6 @@
 <script setup>
 import { Menu, ShoppingCart, Operation, Bell } from '@element-plus/icons-vue'
+import headImage from '@/assets/6.jpg'
 </script>
 
 <template>
@@ -42,7 +43,7 @@ import { Menu, ShoppingCart, Operation, Bell } from '@element-plus/icons-vue'
           <Bell />
         </el-icon>
 
-        <el-avatar src="@/assets/5.jpg"></el-avatar>
+        <el-avatar :src="headImage" ></el-avatar>
       </el-header>
 
       <el-main>
@@ -80,10 +81,11 @@ import { Menu, ShoppingCart, Operation, Bell } from '@element-plus/icons-vue'
 
   .inside {
     .el-header {
-      // height: 30px;
+      height: 30px;
+      width: 98%;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: start;
     }
 
     .el-footer {

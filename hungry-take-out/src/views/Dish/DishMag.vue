@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import { dishPageQueryService, dishDeleteService } from '@/api/dish'
 import DishEdit from './components/DishEdit.vue'
@@ -25,10 +25,6 @@ const pageParams = ref({
   name: '',
   type: '',
   status: ''
-})
-
-onMounted(() => {
-  console.log('what？什么情况？')
 })
 
 //获取分页响应数据
@@ -128,9 +124,6 @@ const onSuccess = (type) => {
           <el-option label="酒水饮料" value="酒水饮料"></el-option>
         </el-select>
       </el-form-item>
-      <!-- <el-form-item label="作者：">
-            <el-input v-model="formData.author"></el-input>
-          </el-form-item> -->
       <el-form-item label="状态：">
         <el-select v-model="formData.language">
           <el-option label="起售" value="1"></el-option>
@@ -151,7 +144,11 @@ const onSuccess = (type) => {
       <el-table-column label="菜名" prop="name"></el-table-column>
       <el-table-column label="类型" prop="category"></el-table-column>
       <el-table-column label="价格" prop="price"></el-table-column>
-      <el-table-column label="图片" prop="image"></el-table-column>
+      <el-table-column label="图片" prop="image">
+        <template #default="{ row }">
+          <img :src="row.image" alt="图片" style="width: 50px; height: 50px" />
+        </template>
+      </el-table-column>
       <el-table-column label="状态" prop="status"></el-table-column>
       <el-table-column label="描述" prop="description"></el-table-column>
       <el-table-column label="操作" width="100px">
