@@ -1,9 +1,11 @@
 <script setup>
-import { ref } from 'vue'
-import { dishPageQueryService } from '@/api/dish'
+import { ref, onMounted } from 'vue'
+import { Delete, Edit } from '@element-plus/icons-vue'
+import { dishPageQueryService, dishDeleteService } from '@/api/dish'
+import DishEdit from './components/DishEdit.vue'
 
 //分页查询响应数据
-const bookList = ref([])
+const dishList = ref([])
 //总记录数
 const total = ref(null)
 //加载状态
@@ -11,94 +13,168 @@ const loading = ref(false)
 
 //表单数据
 const formData = ref({
-  bookName: '',
+  name: '',
   type: '',
-  author: '',
-  language: ''
+  status: ''
 })
 
-//分页查询参数
+//查询参数
 const pageParams = ref({
   pageNum: 1,
-  pageSize: 5
+  pageSize: 10,
+  name: '',
+  type: '',
+  status: ''
 })
 
-const getBookList = async () => {
-  const res = await dishPageQueryService(pageParams.value)
-  bookList.value = res.data.data.records
-  total.value = res.data.data.total
+onMounted(() => {
+  console.log('what？什么情况？')
+})
 
+//获取分页响应数据
+const getDishList = async () => {
+  const res = await dishPageQueryService(pageParams.value)
+  dishList.value = res.data.data.data
+  total.value = res.data.data.total
   loading.value = false
 }
+getDishList()
 
-getBookList()
+//页大小发生变化
+const onSizeChange = (size) => {
+  // 只要是每页条数变化了，那么原本正在访问的当前页意义不大了，数据大概率已经不在原来那一页了
+  // 重新从第一页渲染即可
+  pageParams.value.pageNum = 1
+  pageParams.value.pageSize = size
+  getDishList()
+}
+
+//页码发生变化
+const onCurrentChange = (page) => {
+  pageParams.value.pageNum = page
+  getDishList()
+}
+
+// 搜索功能
+const onSearch = () => {
+  pageParams.value.pageNum = 0 // 重置页面
+  getDishList()
+}
+
+// 重置表单
+const onReset = () => {
+  pageParams.value.pageNum = 0 // 重置页面
+  pageParams.value.name = ''
+  pageParams.value.type = ''
+  pageParams.value.status = ''
+  getDishList()
+}
+
+//弹出抽屉进行添加或编辑操作
+const dishEditRef = ref()
+
+const onAddDish = () => {
+  dishEditRef.value.open({})
+}
+
+const onEditDish = (row) => {
+  dishEditRef.value.open(row)
+}
+
+// 删除菜品
+const onDeleteDish = async (row) => {
+  // 提示用户是否要删除
+  await ElMessageBox.confirm('此操作将永久删除菜品, 是否继续？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  await dishDeleteService(row.id)
+  ElMessage.success('删除成功')
+  // 重新渲染列表
+  getDishList()
+}
+
+// 添加或者编辑 成功的回调
+const onSuccess = (type) => {
+  if (type === 'add') {
+    // 如果是添加，最好渲染最后一页
+    const lastPage = Math.ceil((total.value + 1) / pageParams.value.pagesize)
+    // 更新成最大页码数，再渲染
+    pageParams.value.pageNum = lastPage
+  }
+  getDishList()
+}
 </script>
 
 <template>
-  <page-container title="图书管理">
+  <page-container title="菜品列表">
     <template #button>
-      <el-button type="primary" plain="true">添加图书</el-button>
+      <el-button type="primary" plain="true" @click="onAddDish">添加菜品</el-button>
     </template>
 
-    <template #main>
-      <div class="search-form">
-        <el-form inline :model="formData">
-          <el-form-item label="名称：">
-            <el-input v-model="formData.bookName"></el-input>
-          </el-form-item>
-          <el-form-item label="类型：">
-            <el-select v-model="formData.type">
-              <el-option label="文学类" value="文学类"></el-option>
-              <el-option label="数学类" value="数学类"></el-option>
-              <el-option label="计算机类" value="计算机类"></el-option>
-              <el-option label="科技类" value="科技类"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="作者：">
+    <el-form inline :model="formData">
+      <el-form-item label="名称：">
+        <el-input v-model="formData.bookName"></el-input>
+      </el-form-item>
+      <el-form-item label="类型：">
+        <el-select v-model="formData.type">
+          <el-option label="主食类" value="主食类"></el-option>
+          <el-option label="特色类" value="特色类"></el-option>
+          <el-option label="中餐类" value="中餐类"></el-option>
+          <el-option label="素菜类" value="素菜类"></el-option>
+          <el-option label="小吃类" value="小吃类"></el-option>
+          <el-option label="汤菜类" value="汤菜类"></el-option>
+          <el-option label="酒水饮料" value="酒水饮料"></el-option>
+        </el-select>
+      </el-form-item>
+      <!-- <el-form-item label="作者：">
             <el-input v-model="formData.author"></el-input>
-          </el-form-item>
-          <el-form-item label="语言：">
-            <el-select v-model="formData.language">
-              <el-option label="中文" value="中文"></el-option>
-              <el-option label="英语" value="英语"></el-option>
-            </el-select>
-          </el-form-item>
+          </el-form-item> -->
+      <el-form-item label="状态：">
+        <el-select v-model="formData.language">
+          <el-option label="起售" value="1"></el-option>
+          <el-option label="停售" value="0"></el-option>
+        </el-select>
+      </el-form-item>
 
-          <el-form-item>
-            <el-button type="primary">搜索</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary">重置</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+      <el-form-item>
+        <el-button type="primary" @click="onSearch">搜索</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onReset">重置</el-button>
+      </el-form-item>
+    </el-form>
 
-      <div>
-        <el-table :data="bookList" v-loading="loading">
-          <el-table-column label="编号" prop="id"></el-table-column>
-          <el-table-column label="名称" prop="bookName"></el-table-column>
-          <el-table-column label="类型" prop="type"></el-table-column>
-          <el-table-column label="作者" prop="author"></el-table-column>
-          <el-table-column label="库存" prop="stock"></el-table-column>
-          <el-table-column label="语言" prop="language"></el-table-column>
-          <el-table-column label="操作">
-            <el-button type="primary">修改</el-button>
-            <el-button type="primary">删除</el-button>
-          </el-table-column>
-        </el-table>
-      </div>
-    </template>
+    <el-table scrollbar-always-on="true" :data="dishList" v-loading="loading">
+      <el-table-column label="编号" prop="id"></el-table-column>
+      <el-table-column label="菜名" prop="name"></el-table-column>
+      <el-table-column label="类型" prop="category"></el-table-column>
+      <el-table-column label="价格" prop="price"></el-table-column>
+      <el-table-column label="图片" prop="image"></el-table-column>
+      <el-table-column label="状态" prop="status"></el-table-column>
+      <el-table-column label="描述" prop="description"></el-table-column>
+      <el-table-column label="操作" width="100px">
+        <template #default="{ row }">
+          <el-button circle type="primary" :icon="Edit" @click="onEditDish(row)"></el-button>
+          <el-button circle type="danger" :icon="Delete" @click="onDeleteDish(row)"></el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-pagination v-model:current-page="pageParams.pageNum" v-model:page-size="pageParams.pageSize"
+      :page-sizes="[1, 5, 10, 50]" background layout="slot,jumper, total, sizes, prev, pager, next" :total="total"
+      @size-change="onSizeChange" @current-change="onCurrentChange" />
   </page-container>
+  <dish-edit ref="dishEditRef" @success="onSuccess"></dish-edit>
 </template>
 
 <style lang="scss" scoped>
-.search-form {
-  .el-input {
-    width: 180px;
-  }
+.el-input {
+  width: 200px;
+}
 
-  .el-select {
-    width: 180px;
-  }
+.el-select {
+  width: 200px;
 }
 </style>
