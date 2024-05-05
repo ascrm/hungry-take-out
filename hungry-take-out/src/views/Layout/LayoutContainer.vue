@@ -1,5 +1,63 @@
 <script setup>
 import { Menu, ShoppingCart, Operation, Bell } from '@element-plus/icons-vue'
+import { useAdminStore } from '@/stores'
+import { getStatusService, updateStatusService } from '@/api/shop'
+import router from '@/router'
+import { ref } from 'vue'
+import headImage from '@/assets/6.jpg'
+
+const statusMsg = ref('')
+const type = ref('')
+const adminStore = useAdminStore()
+
+const getStatus = async () => {
+  const res = await getStatusService()
+  console.log('状态值为：')
+  console.log(res.data.data)
+  if (res.data.data == 1) {
+    statusMsg.value = '营业中'
+    type.value = 'success'
+  } else {
+    statusMsg.value = '休息中'
+    type.value = 'info'
+  }
+  console.log(statusMsg.value)
+}
+//进入页面立即查询营业状态
+getStatus()
+
+const updateStatus = async () => {
+  await ElMessageBox.confirm('你确认要修改营业状态吗？', '温馨提示', {
+    type: 'warning',
+    confirmButtonText: '确认',
+    cancelButtonText: '取消'
+  })
+  if (statusMsg.value === '营业中') {
+    await updateStatusService(0)
+  } else {
+    await updateStatusService(1)
+  }
+  getStatus()
+}
+
+const handleCommand = async (key) => {
+  if (key === 'logout') {
+    // 退出操作
+    await ElMessageBox.confirm('你确认要进行退出吗？', '温馨提示', {
+      type: 'warning',
+      confirmButtonText: '确认',
+      cancelButtonText: '取消'
+    })
+
+    // 清除本地的数据 (token + user信息)
+    adminStore.removeToken()
+    router.push('/login')
+    ElMessage.success('退出成功')
+  } else {
+    // 跳转操作
+    router.push(`/admin/${key}`)
+  }
+}
 </script>
 
 <template>
@@ -42,7 +100,31 @@ import { Menu, ShoppingCart, Operation, Bell } from '@element-plus/icons-vue'
           <Bell />
         </el-icon>
 
-        <el-avatar src="@/assets/5.jpg"></el-avatar>
+        <div class="avatar">
+          <el-button :type="type" @click="updateStatus">{{
+            statusMsg
+          }}</el-button>
+
+          <el-dropdown placement="bottom-end" @command="handleCommand">
+            <!-- 展示给用户，默认看到的 -->
+            <span class="el-dropdown__box">
+              <el-avatar :src="headImage"></el-avatar>
+              <el-icon>
+                <CaretBottom />
+              </el-icon>
+            </span>
+
+            <!-- 折叠的下拉部分 -->
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
+                <el-dropdown-item command="password" :icon="Crop">修改密码</el-dropdown-item>
+                <el-dropdown-item command="account" :icon="EditPen">切换账号</el-dropdown-item>
+                <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
       </el-header>
 
       <el-main>
@@ -80,10 +162,32 @@ import { Menu, ShoppingCart, Operation, Bell } from '@element-plus/icons-vue'
 
   .inside {
     .el-header {
-      // height: 30px;
+      height: 50px;
+      width: 98%;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      .avatar {
+        width: 180px;
+        display: flex;
+        justify-content: space-between;
+
+        .el-dropdown__box {
+          display: flex;
+          align-items: center;
+
+          .el-icon {
+            color: #999;
+            margin-left: 10px;
+          }
+
+          &:active,
+          &:focus {
+            outline: none;
+          }
+        }
+      }
     }
 
     .el-footer {

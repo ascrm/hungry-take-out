@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import { dishPageQueryService, dishDeleteService } from '@/api/dish'
 import DishEdit from './components/DishEdit.vue'
@@ -25,10 +25,6 @@ const pageParams = ref({
   name: '',
   type: '',
   status: ''
-})
-
-onMounted(() => {
-  console.log('what？什么情况？')
 })
 
 //获取分页响应数据
@@ -72,9 +68,8 @@ const onReset = () => {
 
 //弹出抽屉进行添加或编辑操作
 const dishEditRef = ref()
-
 const onAddDish = () => {
-  dishEditRef.value.open({})
+  dishEditRef.value.open()
 }
 
 const onEditDish = (row) => {
@@ -84,14 +79,14 @@ const onEditDish = (row) => {
 // 删除菜品
 const onDeleteDish = async (row) => {
   // 提示用户是否要删除
-  await ElMessageBox.confirm('此操作将永久删除菜品, 是否继续？', '提示', {
+  await ElMessageBox.confirm('此操作将永久删除菜品, 是否继续？', '温馨提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   })
   await dishDeleteService(row.id)
   ElMessage.success('删除成功')
-  // 重新渲染列表
+
   getDishList()
 }
 
@@ -103,6 +98,7 @@ const onSuccess = (type) => {
     // 更新成最大页码数，再渲染
     pageParams.value.pageNum = lastPage
   }
+  pageParams.value.pageNum = 1
   getDishList()
 }
 </script>
@@ -128,9 +124,6 @@ const onSuccess = (type) => {
           <el-option label="酒水饮料" value="酒水饮料"></el-option>
         </el-select>
       </el-form-item>
-      <!-- <el-form-item label="作者：">
-            <el-input v-model="formData.author"></el-input>
-          </el-form-item> -->
       <el-form-item label="状态：">
         <el-select v-model="formData.language">
           <el-option label="起售" value="1"></el-option>
@@ -151,7 +144,11 @@ const onSuccess = (type) => {
       <el-table-column label="菜名" prop="name"></el-table-column>
       <el-table-column label="类型" prop="category"></el-table-column>
       <el-table-column label="价格" prop="price"></el-table-column>
-      <el-table-column label="图片" prop="image"></el-table-column>
+      <el-table-column label="图片" prop="image">
+        <template #default="{ row }">
+          <img :src="row.image" alt="图片" style="width: 50px; height: 50px" />
+        </template>
+      </el-table-column>
       <el-table-column label="状态" prop="status"></el-table-column>
       <el-table-column label="描述" prop="description"></el-table-column>
       <el-table-column label="操作" width="100px">
@@ -163,7 +160,7 @@ const onSuccess = (type) => {
     </el-table>
 
     <el-pagination v-model:current-page="pageParams.pageNum" v-model:page-size="pageParams.pageSize"
-      :page-sizes="[1, 5, 10, 50]" background layout="slot,jumper, total, sizes, prev, pager, next" :total="total"
+      :page-sizes="[1, 5, 10, 50]" background layout="jumper, total, sizes, prev, pager, next" :total="total"
       @size-change="onSizeChange" @current-change="onCurrentChange" />
   </page-container>
   <dish-edit ref="dishEditRef" @success="onSuccess"></dish-edit>

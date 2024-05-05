@@ -4,8 +4,6 @@ import { dishEditService, dishAddService, dishQueryById } from '@/api/dish'
 import { UploadFileService } from '@/api/common'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
-import { baseURL } from '@/utils/request'
-import axios from 'axios'
 
 const visibleDrawer = ref(false)
 //默认数据
@@ -24,11 +22,11 @@ const formModel = ref({ ...defaultForm })
 const rules = {
   name: [
     { required: true, message: '名称不能为空', trigger: 'blur' },
-    { pattern: /^[\u4e00-\u9fa5]+$/, message: '输入有误', trigger: 'blur' }
+    { pattern: /^[0-9\u4e00-\u9fa5]+$/, message: '输入有误', trigger: 'blur' }
   ],
   price: [
     { required: true, message: '价格不能为空', trigger: 'blur' },
-    { pattern: /^\d+$/, message: '只能输入数字', trigger: 'blur' }
+    { pattern: /^\d+(\.\d+)?$/, message: '输入有误', trigger: 'blur' }
   ]
 }
 
@@ -37,11 +35,16 @@ const imgUrl = ref('')
 const onUploadFile = async (uploadFile) => {
   imgUrl.value = URL.createObjectURL(uploadFile.raw) // 预览图片
 
+  console.log('数据类型：')
+  console.log(uploadFile)
+  console.log(typeof uploadFile)
+  console.log(uploadFile.raw)
+  console.log(typeof uploadFile.raw)
+
   const fd = new FormData()
   fd.append('file', uploadFile.raw)
   const res = await UploadFileService(fd)
 
-  console.log('formModel.value.image是: ', res.data.data)
   formModel.value.image = res.data.data
   ElMessage.success('上传成功')
 }
@@ -78,45 +81,12 @@ const open = async (row) => {
   if (row.id) {
     const res = await dishQueryById(row.id)
     formModel.value = res.data.data
-
     imgUrl.value = formModel.value.image
-    const fileName = imgUrl.value.split('.com/')[1]
-
-    console.log('文件地址是：', imgUrl.value)
-    console.log('文件名是：', fileName)
-    //将图片地址转化为File对象的函数
-    const file = await imageUrlToFileObject(imgUrl.value, fileName)
-
-    console.log('文件转化后: ', file)
-    formModel.value.image = file
   } else {
     formModel.value = { ...defaultForm } // 基于默认的数据，重置form数据
     // 这里重置了表单的数据，但是图片上传img地址，富文本编辑器内容 => 需要手动重置
     imgUrl.value = ''
     editorRef.value.setHTML('')
-  }
-}
-
-// 将网络图片地址转换为 File 对象的函数
-async function imageUrlToFileObject(imageUrl, filename) {
-  try {
-    // 使用 Axios 下载图片数据
-    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' })
-
-    // 将下载的数据转换成 Blob 对象
-    const blob = new Blob([response.data], {
-      type: response.headers['content-type']
-    })
-
-    // 创建 File 对象
-    const file = new File([blob], filename, {
-      type: response.headers['content-type']
-    })
-
-    return file
-  } catch (error) {
-    console.error('Error converting image URL to File object:', error)
-    return null
   }
 }
 

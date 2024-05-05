@@ -11,7 +11,6 @@ export const useAdminStore = defineStore(
     const removeToken = () => {
       token.value = ''
     }
-
     return {
       token,
       setToken,

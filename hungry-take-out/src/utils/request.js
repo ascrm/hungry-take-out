@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useAdminStore } from '@/stores/modules/admin'
-import { ElMessage } from 'element-plus'
+import router from '@/router'
 
 const adminStore = useAdminStore()
 const baseURL = '/api'
@@ -30,13 +30,17 @@ instance.interceptors.response.use(
     return Promise.reject(res.data.msg)
   },
   (err) => {
-    if (err?.response.code === 401) {
-      ElMessage.err('用户未登录')
-    } else if (err?.response.code === 404) {
-      ElMessage.err('访问资源不存在')
+    console.log('错误状态码是：')
+    console.log(err?.response.status)
+    if (err?.response.status === 403) {
+      ElMessage.error('用户未登录')
+      router.push('/login')
+      return
+    } else if (err?.response.status === 404) {
+      ElMessage.error('访问资源不存在')
+      return
     }
-
-    ElMessage.err('服务错误')
+    ElMessage.error('服务错误')
     return Promise.reject(err)
   }
 )
