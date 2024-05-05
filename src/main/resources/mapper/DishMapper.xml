@@ -4,5 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hungry.mapper.DishMapper">
 
-
+    <select id="getListByPage" resultType="com.hungry.pojo.entity.Dish">
+        select * from dish
+        <where>
+            <if test="name != null and name != ''">
+                and name like #{name}
+            </if>
+            <if test="category != null and category != ''">
+                and category = #{category}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>

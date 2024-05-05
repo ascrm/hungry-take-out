@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author:ascrm
  * @Date:2024/5/4
@@ -17,4 +19,6 @@ public class RegisterDto {
     private String mail;
     private String permission;
     private String code;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 }

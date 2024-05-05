@@ -18,8 +18,9 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/login")
-    public Result<Map<String,String>> login(@RequestBody LoginDto loginDto) {
-        return Result.success("登录成功",adminService.login(loginDto));
+    public Result<String> login(@RequestBody LoginDto loginDto) {
+        String jwt = adminService.login(loginDto);
+        return Result.success("登录成功",jwt);
     }
 
     @PostMapping("/logout")

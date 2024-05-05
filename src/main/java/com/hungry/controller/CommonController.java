@@ -33,7 +33,7 @@ public class CommonController {
         String prefix = UUID.randomUUID().toString();
 
         String fileName = prefix + suffix;
-        aliOssUtil.upload(file.getBytes(),fileName);
-        return Result.success(FILE_UPLOAD,fileName);
+        String url = aliOssUtil.upload(file.getBytes(), fileName);
+        return Result.success(FILE_UPLOAD,url);
     }
 }

@@ -17,19 +17,19 @@ import java.sql.SQLException;
 public class GlobalExceptionHandler {
     @ExceptionHandler(ConnectException.class)
     public Result<String> handleConnectException(ConnectException e){
-        log.info("无法连接到服务器",e);
+        log.error("无法连接到服务器：{}",e.getMessage());
         return Result.fail("无法连接到服务器");
     }
 
     @ExceptionHandler(SQLException.class)
     public Result<String> handleSQLException(SQLException e){
-        log.info("SQL错误",e);
+        log.error("SQL错误：{}",e.getMessage());
         return Result.fail("后端SQL错误");
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Result<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
-        log.info("数据请求不可读",e);
+        log.error("数据请求不可读：{}",e.getMessage());
         return Result.fail("数据请求不可读"+e.getMessage());
     }
 

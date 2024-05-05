@@ -45,7 +45,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final StringRedisTemplate stringRedisTemplate;
     @Override
-    public Map<String, String> login(LoginDto loginDto) {
+    public String login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
             Authentication authenticate = authenticationManager.authenticate(authenticationToken);
@@ -58,10 +58,8 @@ public class AdminServiceImpl implements AdminService {
         //如果通过了，使用userid生成一个jwt jwt存入Result返回
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         String userid = String.valueOf(loginUser.getAdmin().getId());
-        String jwt = JwtUtil.createJWT(userid);
-        Map<String, String> map = Map.of("Authorization", jwt);
         redisCache.setCacheObject("login:"+userid,loginUser);
-        return map;
+        return JwtUtil.createJWT(userid);
     }
 
     @Override

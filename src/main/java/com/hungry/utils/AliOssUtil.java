@@ -24,7 +24,7 @@ public class AliOssUtil {
      * 文件上传
      *
      */
-    public void upload(byte[] bytes, String objectName) {
+    public String upload(byte[] bytes, String objectName) {
 
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
@@ -52,13 +52,16 @@ public class AliOssUtil {
 
         //文件访问路径规则 https://BucketName.Endpoint/ObjectName
         StringBuilder stringBuilder = new StringBuilder("https://");
-        stringBuilder
+        String url = stringBuilder
                 .append(bucketName)
                 .append(".")
                 .append(endpoint)
                 .append("/")
-                .append(objectName);
+                .append(objectName)
+                .toString();
 
-        log.info("文件上传到:{}", stringBuilder);
+
+        log.info("文件上传到:{}", url);
+        return url;
     }
 }
