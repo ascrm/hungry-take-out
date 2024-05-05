@@ -13,6 +13,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     if (adminStore.token) {
+      console.log('执行了这一步吗')
       console.log(adminStore.token)
       config.headers.Authorization = adminStore.token
     }

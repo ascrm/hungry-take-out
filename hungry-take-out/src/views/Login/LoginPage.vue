@@ -85,6 +85,8 @@ const login = async () => {
   //登录前校验
   await form.value.validate()
   const res = await adminLoginService(admin.value)
+  console.log('数据是：')
+  console.log(res.data.data)
   adminStore.setToken(res.data.data)
   ElMessage.success('登陆成功')
   router.push('/')

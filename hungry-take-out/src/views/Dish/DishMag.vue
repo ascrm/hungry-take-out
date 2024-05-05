@@ -99,6 +99,7 @@ const onSuccess = (type) => {
     // 更新成最大页码数，再渲染
     pageParams.value.pageNum = lastPage
   }
+  pageParams.value.pageNum = 1
   getDishList()
 }
 </script>

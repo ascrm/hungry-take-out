@@ -54,14 +54,12 @@ const onPublish = async (status) => {
 
   if (formModel.value.id) {
     // 编辑操作
-    await formModel.value.validate()
     await dishEditService(formModel.value)
     ElMessage.success('修改成功')
     visibleDrawer.value = false
     emit('success', 'edit')
   } else {
     // 添加操作
-    await formModel.value.validate()
     await dishAddService(formModel.value)
     ElMessage.success('添加成功')
     visibleDrawer.value = false
