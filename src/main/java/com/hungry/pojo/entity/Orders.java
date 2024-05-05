@@ -1,6 +1,5 @@
 package com.hungry.pojo.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("orders")
 public class Orders implements Serializable {
     private final static long serialVersionUID = 1L;
     private int id;

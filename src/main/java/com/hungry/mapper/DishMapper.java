@@ -1,15 +1,15 @@
 package com.hungry.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.hungry.pojo.DTO.DishDto;
 import com.hungry.pojo.entity.Dish;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface DishMapper extends BaseMapper<Dish> {
-    @Select("select * from dish limit #{pageNum},#{pageSize}")
-    List<Dish> getListByPage(int pageNum, int pageSize);
+public interface DishMapper {
+
+    List<Dish> getListByPage(DishDto dishDto);
 
     @Update("update dish set name = #{name}, price = #{price}, category = #{category}, image=#{image}," +
             "status=#{status},description=#{description}, update_time=#{updateTime} where id = #{id}")

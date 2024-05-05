@@ -1,6 +1,5 @@
 package com.hungry.pojo.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("dish")
 public class Dish implements Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
@@ -25,8 +23,6 @@ public class Dish implements Serializable {
     //status：菜品状态： 0 停售 1 出售
     private int status;
     private String description;
-
     private LocalDateTime createTime;
-
     private LocalDateTime updateTime;
 }
