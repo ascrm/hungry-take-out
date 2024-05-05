@@ -8,7 +8,7 @@ import com.hungry.pojo.entity.Admin;
 import java.util.Map;
 
 public interface AdminService {
-    Map<String,String> login(LoginDto loginDto);
+    String login(LoginDto loginDto);
 
     String logout();
 
