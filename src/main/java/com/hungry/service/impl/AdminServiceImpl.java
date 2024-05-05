@@ -45,21 +45,21 @@ public class AdminServiceImpl implements AdminService {
 
     private final StringRedisTemplate stringRedisTemplate;
     @Override
-    public Map<String, String> login(LoginDto loginDto) {
+    public String login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
             Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+
         //if认证没通过
         if(Objects.isNull(authenticate)){
             throw new RuntimeException("登录失败");
         }
+
         //如果通过了，使用userid生成一个jwt jwt存入Result返回
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         String userid = String.valueOf(loginUser.getAdmin().getId());
-        String jwt = JwtUtil.createJWT(userid);
-        Map<String, String> map = Map.of("token", jwt);
         redisCache.setCacheObject("login:"+userid,loginUser);
-        return map;
+        return JwtUtil.createJWT(userid);
     }
 
     @Override
@@ -75,6 +75,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @AutoFill(OperationType.DISH_INSERT)
     public String register(RegisterDto registerDto) {
         String redisCode = stringRedisTemplate.opsForValue().get("admin:register:" + registerDto.getMail());
         if(registerDto.getCode()==null){
@@ -83,6 +84,9 @@ public class AdminServiceImpl implements AdminService {
         if(!registerDto.getCode().equals(redisCode)){
             return "验证码错误";
         }
+        Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
+        String encode = md5PasswordEncoder.encode(registerDto.getPassword());
+        registerDto.setPassword(encode);
         Admin admin = new Admin();
         BeanUtil.copyProperties(registerDto,admin,true);
         adminMapper.insertOne(admin);
