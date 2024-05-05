@@ -68,9 +68,8 @@ const onReset = () => {
 
 //弹出抽屉进行添加或编辑操作
 const dishEditRef = ref()
-
 const onAddDish = () => {
-  dishEditRef.value.open({})
+  dishEditRef.value.open()
 }
 
 const onEditDish = (row) => {
@@ -80,14 +79,14 @@ const onEditDish = (row) => {
 // 删除菜品
 const onDeleteDish = async (row) => {
   // 提示用户是否要删除
-  await ElMessageBox.confirm('此操作将永久删除菜品, 是否继续？', '提示', {
+  await ElMessageBox.confirm('此操作将永久删除菜品, 是否继续？', '温馨提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   })
   await dishDeleteService(row.id)
   ElMessage.success('删除成功')
-  // 重新渲染列表
+
   getDishList()
 }
 
@@ -161,7 +160,7 @@ const onSuccess = (type) => {
     </el-table>
 
     <el-pagination v-model:current-page="pageParams.pageNum" v-model:page-size="pageParams.pageSize"
-      :page-sizes="[1, 5, 10, 50]" background layout="slot,jumper, total, sizes, prev, pager, next" :total="total"
+      :page-sizes="[1, 5, 10, 50]" background layout="jumper, total, sizes, prev, pager, next" :total="total"
       @size-change="onSizeChange" @current-change="onCurrentChange" />
   </page-container>
   <dish-edit ref="dishEditRef" @success="onSuccess"></dish-edit>
