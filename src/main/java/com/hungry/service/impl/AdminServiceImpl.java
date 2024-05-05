@@ -42,7 +42,6 @@ public class AdminServiceImpl implements AdminService {
     private final RedisCache redisCache;
     private final AdminMapper adminMapper;
     private final JavaMailSender javaMailSender;
-
     private final StringRedisTemplate stringRedisTemplate;
     @Override
     public String login(LoginDto loginDto) {
@@ -50,10 +49,6 @@ public class AdminServiceImpl implements AdminService {
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
             Authentication authenticate = authenticationManager.authenticate(authenticationToken);
 
-        //if认证没通过
-        if(Objects.isNull(authenticate)){
-            throw new RuntimeException("登录失败");
-        }
 
         //如果通过了，使用userid生成一个jwt jwt存入Result返回
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
