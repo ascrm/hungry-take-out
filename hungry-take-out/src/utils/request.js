@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useAdminStore } from '@/stores/modules/admin'
 import router from '@/router'
+import { ElMessage } from 'element-plus'
 
 const adminStore = useAdminStore()
 const baseURL = '/api'
@@ -30,14 +31,13 @@ instance.interceptors.response.use(
     return Promise.reject(res.data.msg)
   },
   (err) => {
-    console.log(err?.response.status)
-    if (err?.response.status === 403) {
+    if (err?.response.status === 401) {
       ElMessage.error('用户未登录')
       router.push('/login')
-      return
-    } else if (err?.response.status === 404) {
-      ElMessage.error('访问资源不存在')
-      return
+      return Promise.reject(err)
+    } else if (err?.response.status === 403) {
+      ElMessage.error('权限不足')
+      return Promise.reject(err)
     }
     ElMessage.error('服务错误')
     return Promise.reject(err)
