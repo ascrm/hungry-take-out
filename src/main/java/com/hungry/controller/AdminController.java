@@ -6,14 +6,13 @@ import com.hungry.pojo.Result;
 import com.hungry.pojo.entity.Admin;
 import com.hungry.service.AdminService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminController {
     private final AdminService adminService;
 
