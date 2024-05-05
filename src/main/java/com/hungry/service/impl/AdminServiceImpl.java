@@ -26,13 +26,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static com.hungry.constant.MessageConstant.LOGOUT_SUCCESS;
 import static com.hungry.constant.MessageConstant.REGISTER_SUCCESS;
-import static com.hungry.constant.RedisKeyConstant.ADMIN_REGISTER_CODE;
 
 @Service
 @RequiredArgsConstructor
@@ -89,6 +87,7 @@ public class AdminServiceImpl implements AdminService {
         registerDto.setPassword(encode);
         Admin admin = new Admin();
         BeanUtil.copyProperties(registerDto,admin,true);
+        admin.setName(admin.getUsername());
         adminMapper.insertOne(admin);
         return REGISTER_SUCCESS;
     }

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
  * @Date:2024/4/27
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Result<T> {
     /**
@@ -26,6 +25,16 @@ public class Result<T> {
      * 响应数据
      */
     private T data;
+
+    public Result(int code, String msg){
+        this.code = code;
+        this.msg = msg;
+    }
+    public Result(int code, String msg,T data){
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
 
     public static <T>Result<T> success() {
         return new Result<>(200,null,null);

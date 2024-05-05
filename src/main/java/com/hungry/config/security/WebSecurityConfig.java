@@ -14,7 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -28,6 +30,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig{
 
 	private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
+	private final AuthenticationEntryPoint authenticationEntryPoint;
+
+	private final AccessDeniedHandler accessDeniedHandler;
+
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -58,6 +65,9 @@ public class WebSecurityConfig{
 
 		http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
+//		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).
+//				accessDeniedHandler(accessDeniedHandler);
+		http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(authenticationEntryPoint).accessDeniedHandler(accessDeniedHandler));
 		return http.build();
 	}
 
