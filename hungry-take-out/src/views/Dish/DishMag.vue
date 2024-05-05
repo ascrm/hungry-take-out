@@ -11,25 +11,20 @@ const total = ref(null)
 //加载状态
 const loading = ref(false)
 
-//表单数据
-const formData = ref({
-  name: '',
-  type: '',
-  status: ''
-})
-
 //查询参数
 const pageParams = ref({
   pageNum: 1,
   pageSize: 10,
   name: '',
-  type: '',
+  category: '',
   status: ''
 })
 
 //获取分页响应数据
 const getDishList = async () => {
   const res = await dishPageQueryService(pageParams.value)
+  console.log(res.data.data)
+  console.log(res.data.data.total)
   dishList.value = res.data.data.data
   total.value = res.data.data.total
   loading.value = false
@@ -51,27 +46,21 @@ const onCurrentChange = (page) => {
   getDishList()
 }
 
-// 搜索功能
-const onSearch = () => {
-  pageParams.value.pageNum = 1 // 重置页面
-  getDishList()
-}
-
 // 重置表单
 const onReset = () => {
   pageParams.value.pageNum = 1 // 重置页面
   pageParams.value.name = ''
-  pageParams.value.type = ''
+  pageParams.value.category = ''
   pageParams.value.status = ''
   getDishList()
 }
 
-//弹出抽屉进行添加或编辑操作
+//添加和编辑操作
 const dishEditRef = ref()
+
 const onAddDish = () => {
   dishEditRef.value.open()
 }
-
 const onEditDish = (row) => {
   dishEditRef.value.open(row)
 }
@@ -109,12 +98,12 @@ const onSuccess = (type) => {
       <el-button type="primary" plain="true" @click="onAddDish">添加菜品</el-button>
     </template>
 
-    <el-form inline :model="formData">
-      <el-form-item label="名称：">
-        <el-input v-model="formData.bookName"></el-input>
+    <el-form inline :model="pageParams">
+      <el-form-item label="名称：" prop="name">
+        <el-input v-model="pageParams.name"></el-input>
       </el-form-item>
-      <el-form-item label="类型：">
-        <el-select v-model="formData.type">
+      <el-form-item label="类型：" prop="category">
+        <el-select v-model="pageParams.category">
           <el-option label="主食类" value="主食类"></el-option>
           <el-option label="特色类" value="特色类"></el-option>
           <el-option label="中餐类" value="中餐类"></el-option>
@@ -124,15 +113,15 @@ const onSuccess = (type) => {
           <el-option label="酒水饮料" value="酒水饮料"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="状态：">
-        <el-select v-model="formData.language">
+      <el-form-item label="状态：" prop="status">
+        <el-select v-model="pageParams.status">
           <el-option label="起售" value="1"></el-option>
           <el-option label="停售" value="0"></el-option>
         </el-select>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSearch">搜索</el-button>
+        <el-button type="primary" @click="getDishList">搜索</el-button>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onReset">重置</el-button>

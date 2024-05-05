@@ -30,7 +30,6 @@ instance.interceptors.response.use(
     return Promise.reject(res.data.msg)
   },
   (err) => {
-    console.log('错误状态码是：')
     console.log(err?.response.status)
     if (err?.response.status === 403) {
       ElMessage.error('用户未登录')

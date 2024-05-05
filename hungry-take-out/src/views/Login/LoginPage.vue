@@ -102,6 +102,7 @@ watch(isRegister, () => {
     username: '',
     password: '',
     mail: '',
+    permission: 'admin',
     code: '',
     inputCode: '',
     repassword: ''

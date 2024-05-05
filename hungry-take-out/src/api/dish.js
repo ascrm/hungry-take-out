@@ -1,16 +1,14 @@
 import request from '@/utils/request'
 
 //分页查询
-export const dishPageQueryService = ({ pageNum, pageSize }) =>
-  request.get('/dish/page', {
-    params: {
-      pageNum,
-      pageSize
-    }
-  })
+export const dishPageQueryService = (dish) => request.post('/dish/page', dish)
 
 //根据id查询菜品
 export const dishQueryById = (id) => request.get(`/dish/select/${id}`)
+
+//条件查询
+export const dishQueryCondition = (dish) =>
+  request.post('/dish/condition', dish)
 
 //修改菜品
 export const dishEditService = (data) =>
