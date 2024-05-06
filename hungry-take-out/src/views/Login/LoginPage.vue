@@ -10,6 +10,9 @@ const adminStore = useAdminStore()
 const isRegister = ref(true)
 const form = ref(null)
 
+//登录锁
+const lock = ref(false)
+
 //表单数据
 const admin = ref({
   username: '',
@@ -81,7 +84,30 @@ const register = async () => {
 }
 
 //登录功能
+const remainingTime = ref(5) // 设置初始倒计时时间（秒）
 const login = async () => {
+  adminStore.count = adminStore.count + 1
+  //先判断是否已经被锁住
+  if (lock.value) {
+    await ElMessageBox.alert(
+      `登陆失败次数过多，请${remainingTime.value}秒后重试`,
+      '温馨提示',
+      {
+        confirmButtonText: '确定'
+      }
+    )
+    return
+  }
+
+  //判断登录次数是否超过限制
+  if (adminStore.count >= 3) {
+    lock.value = true
+    setTimeout(() => {
+      lock.value = false // 解锁用户
+      adminStore.count = 0 // 重置登录尝试次数
+    }, 5000) // 锁定用户30秒
+  }
+
   //登录前校验
   await form.value.validate()
   const res = await adminLoginService(admin.value)
@@ -92,6 +118,10 @@ const login = async () => {
 
 //获取验证码
 const getCode = async () => {
+  if (admin.value.mail == '') {
+    ElMessage.error('邮箱不能为空')
+    return
+  }
   const res = await getCodeService(admin.value)
   admin.value.code = res.data.data
   ElMessage.success('验证码获取成功')
@@ -159,7 +189,7 @@ watch(isRegister, () => {
               <el-input :prefix-icon="Lock" show-password="true" placeholder="请再次输入密码" v-model="admin.repassword">
               </el-input>
             </el-form-item>
-            <el-form-item prop="mail">
+            <el-form-item prop="mail" ref="formMail">
               <div class="mail">
                 <el-input :prefix-icon="Promotion" placeholder="请输入qq邮箱" v-model="admin.mail"></el-input>
                 <el-button type="primary" @click="getCode" plain>获取验证码</el-button>

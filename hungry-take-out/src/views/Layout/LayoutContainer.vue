@@ -12,8 +12,7 @@ const adminStore = useAdminStore()
 
 const getStatus = async () => {
   const res = await getStatusService()
-  console.log('状态值为：')
-  console.log(res.data.data)
+
   if (res.data.data == 1) {
     statusMsg.value = '营业中'
     type.value = 'success'
@@ -21,9 +20,8 @@ const getStatus = async () => {
     statusMsg.value = '休息中'
     type.value = 'info'
   }
-  console.log(statusMsg.value)
 }
-//进入页面立即查询营业状态
+// 进入页面立即查询营业状态
 getStatus()
 
 const updateStatus = async () => {

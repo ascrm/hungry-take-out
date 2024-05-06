@@ -31,9 +31,13 @@ instance.interceptors.response.use(
     return Promise.reject(res.data.msg)
   },
   (err) => {
+    console.log(err?.response.status)
     if (err?.response.status === 401) {
       ElMessage.error('用户未登录')
       router.push('/login')
+      return Promise.reject(err)
+    } else if (err?.response.status === 402) {
+      ElMessage.error('密码错误')
       return Promise.reject(err)
     } else if (err?.response.status === 403) {
       ElMessage.error('权限不足')

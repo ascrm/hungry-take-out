@@ -11,10 +11,14 @@ export const useAdminStore = defineStore(
     const removeToken = () => {
       token.value = ''
     }
+
+    //计数器
+    const count = ref(0)
     return {
       token,
       setToken,
-      removeToken
+      removeToken,
+      count
     }
   },
   {

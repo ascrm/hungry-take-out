@@ -35,12 +35,6 @@ const imgUrl = ref('')
 const onUploadFile = async (uploadFile) => {
   imgUrl.value = URL.createObjectURL(uploadFile.raw) // 预览图片
 
-  console.log('数据类型：')
-  console.log(uploadFile)
-  console.log(typeof uploadFile)
-  console.log(uploadFile.raw)
-  console.log(typeof uploadFile.raw)
-
   const fd = new FormData()
   fd.append('file', uploadFile.raw)
   const res = await UploadFileService(fd)
